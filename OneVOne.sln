@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneVOne.Common", "OneVOne.Common\OneVOne.Common.csproj", "{E74C8393-9B38-4D1A-A899-1C7683CBA777}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneVOne.Core", "OneVOne.Core\OneVOne.Core.csproj", "{C65AF552-6C17-450C-A1DA-054D4FFBBC67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneVOne.Infrastructure", "OneVOne.Infrastructure\OneVOne.Infrastructure.csproj", "{D2880D26-09BB-4339-BB1E-4B4317EF9E17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneVOne.WebAPI", "OneVOne.WebAPI\OneVOne.WebAPI.csproj", "{21774D95-0CF8-4C77-B239-34B455E7E97A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneVOne.Repository", "OneVOne.Repository\OneVOne.Repository.csproj", "{06E50D2E-57EB-4901-8BBB-73EE6486CCB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerData.WebAPI", "PlayerData.WebAPI\PlayerData.WebAPI.csproj", "{00EFDF6B-B0C9-4B42-84B4-985A58C4C6B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E74C8393-9B38-4D1A-A899-1C7683CBA777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E74C8393-9B38-4D1A-A899-1C7683CBA777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E74C8393-9B38-4D1A-A899-1C7683CBA777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E74C8393-9B38-4D1A-A899-1C7683CBA777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C65AF552-6C17-450C-A1DA-054D4FFBBC67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C65AF552-6C17-450C-A1DA-054D4FFBBC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C65AF552-6C17-450C-A1DA-054D4FFBBC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C65AF552-6C17-450C-A1DA-054D4FFBBC67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2880D26-09BB-4339-BB1E-4B4317EF9E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2880D26-09BB-4339-BB1E-4B4317EF9E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2880D26-09BB-4339-BB1E-4B4317EF9E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2880D26-09BB-4339-BB1E-4B4317EF9E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21774D95-0CF8-4C77-B239-34B455E7E97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21774D95-0CF8-4C77-B239-34B455E7E97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21774D95-0CF8-4C77-B239-34B455E7E97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21774D95-0CF8-4C77-B239-34B455E7E97A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E50D2E-57EB-4901-8BBB-73EE6486CCB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E50D2E-57EB-4901-8BBB-73EE6486CCB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E50D2E-57EB-4901-8BBB-73EE6486CCB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E50D2E-57EB-4901-8BBB-73EE6486CCB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EFDF6B-B0C9-4B42-84B4-985A58C4C6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EFDF6B-B0C9-4B42-84B4-985A58C4C6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EFDF6B-B0C9-4B42-84B4-985A58C4C6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EFDF6B-B0C9-4B42-84B4-985A58C4C6B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46FC998E-5D0E-42DE-B326-8C31B966E4F8}
+	EndGlobalSection
+EndGlobal
