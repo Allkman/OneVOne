@@ -175,39 +175,6 @@ namespace PlayerData.WebAPI.Services
                         player.TeamId = null;
                         await _unitOfWork.CommitAsync();
                     }
-
-                    //_driver.Navigate().GoToUrl(href);
-                    //var waitSecondPageToLoad = new WebDriverWait(_driver, new TimeSpan(0, 0, 30));
-                    //IWebElement imageElement = waitSecondPageToLoad.Until(condition =>
-                    //{
-                    //    try
-                    //    {
-                    //        var elementToBeDisplayed = _driver.FindElement(By.CssSelector("img.PlayerImage_image__wH_YX.PlayerSummary_playerImage__sysif"));
-                    //        return elementToBeDisplayed.Displayed ? elementToBeDisplayed : null;
-                    //    }
-                    //    catch (StaleElementReferenceException)
-                    //    {
-                    //        return null;
-                    //    }
-                    //    catch (NoSuchElementException)
-                    //    {
-                    //        return null;
-                    //    }
-                    //});
-
-                    //if (imageElement != null)
-                    //{
-                    //    string srcValue = imageElement.GetAttribute("src");
-
-                    //    // Check if the src value ends with ".png"
-                    //    if (srcValue.EndsWith(".png"))
-                    //    {
-                    //        // Create a web client to download the image
-                    //        WebClient webClient = new WebClient();
-                    //        // Download the image as a byte array
-                    //        byte[] imageBytes = webClient.DownloadData(srcValue);
-                    //    }
-                    //}
                 }
             }
             Console.WriteLine(_playerURLs.Count);
