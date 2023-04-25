@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using OneVOne.Infrastructure;
-using OneVOne.Infrastructure.Services;
-using OneVOne.Infrastructure.Services.Interfaces;
-using OneVOne.Repository;
+using OneVOne.GameService.Infrastructure;
+using OneVOne.GameService.Infrastructure.Services;
+using OneVOne.GameService.Infrastructure.Services.Interfaces;
+using OneVOne.GameService.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+.sln
+.csproj
+.json
+launchSettings.json
+OneVOne.Infrastructure\Migrations\

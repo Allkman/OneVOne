@@ -1,13 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OneVOne.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OneVOne.GameService.Core.Entities;
 
-namespace OneVOne.Infrastructure.Configs
+namespace OneVOne.GameService.Infrastructure.Configs
 {
     internal class PlayerConfig : IEntityTypeConfiguration<Player>
     {
@@ -24,7 +19,7 @@ namespace OneVOne.Infrastructure.Configs
             builder.Property(p => p.Athleticism).IsRequired(false);
             builder.Property(p => p.Playmaking).IsRequired(false);
             builder.Property(p => p.Rebounding).IsRequired(false);
-            builder.Property(p => p.IsAttacker).IsRequired(false);
+            builder.Property(p => p.IsAttacker).IsRequired();
             builder.Property(p => p.PersonId).IsRequired(false);
             builder.Property(p => p.TeamId).IsRequired(false);
 

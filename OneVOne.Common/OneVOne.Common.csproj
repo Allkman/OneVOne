@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneVOne.Core\OneVOne.Core.csproj" />
+    <ProjectReference Include="..\OneVOne.Core\OneVOne.GameService.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

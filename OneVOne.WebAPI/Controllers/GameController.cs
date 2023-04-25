@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OneVOne.Core.Entities;
-using OneVOne.Infrastructure.Services.Interfaces;
+using OneVOne.GameService.Core.Entities;
+using OneVOne.GameService.Infrastructure.Services.Interfaces;
+using System.Net;
 
-namespace OneVOne.WebAPI.Controllers
+namespace OneVOne.GameService.WebAPI.Controllers
 {
     public class GameController : BaseController
     {
@@ -19,19 +20,26 @@ namespace OneVOne.WebAPI.Controllers
                 await _gameService.CoinToss(playerOneId, playerTwoId);
                 return Ok();
             }
-            catch (ArgumentNullException)
+            catch (HttpRequestException e)
+            when(e.StatusCode == HttpStatusCode.BadRequest)
             {
-                return BadRequest(new ArgumentNullException());
+                return BadRequest(e.Message);
             }
-            catch (Exception)
+            catch (HttpRequestException e)
+            when (e.StatusCode == HttpStatusCode.NotFound)
             {
-                return BadRequest(new Exception());
+                return NotFound();
             }
         }
         [HttpPost("PlayGame")]
-        public async Task<Game> PlayGame(Guid playerOneId, Guid playerTwoId)
+        public async Task<Game> PlayGame(Guid playerOneId, Guid playerTwoId, string gameTime)
         {
-            return await _gameService.PlayGame(playerOneId, playerTwoId);
+            return await _gameService.PlayGame(playerOneId, playerTwoId, gameTime);
+        }
+        [HttpGet]
+        public async Task<Game> GetGame(string gameTime)
+        {
+            return await _gameService.GetGame(gameTime);
         }
     }
 }

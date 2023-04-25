@@ -1,12 +1,12 @@
-﻿using OneVOne.Core.Entities;
-using OneVOne.Infrastructure.Services.Interfaces;
+﻿using OneVOne.GameService.Core.Entities;
+using OneVOne.GameService.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneVOne.Infrastructure.Services
+namespace OneVOne.GameService.Infrastructure.Services
 {
     public class PlayerImageService : IPlayerImageService
     {

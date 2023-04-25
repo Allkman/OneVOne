@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneVOne.Infrastructure\OneVOne.Infrastructure.csproj" />
-    <ProjectReference Include="..\OneVOne.Repository\OneVOne.Repository.csproj" />
+    <ProjectReference Include="..\OneVOne.Infrastructure\OneVOne.GameService.Infrastructure.csproj" />
+    <ProjectReference Include="..\OneVOne.Repository\OneVOne.GameService.Repository.csproj" />
   </ItemGroup>
 
 

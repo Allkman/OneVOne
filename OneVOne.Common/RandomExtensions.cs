@@ -1,4 +1,4 @@
-﻿using OneVOne.Core.Entities;
+﻿using OneVOne.GameService.Core.Entities;
 
 namespace OneVOne.Common
 {
@@ -14,12 +14,5 @@ namespace OneVOne.Common
             return Convert.ToByte(random.Next(lowerBound, upperBound));
         }
 
-        //public static byte RandomChanceNumber(this Random random, byte difference, byte playerOne, byte playerTwo)
-        //{
-        //    if (playerOne >= playerTwo)
-        //    {
-
-        //    }
-        //}
     }
 }

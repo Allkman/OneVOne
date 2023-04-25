@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OneVOne.WebAPI.Controllers
+namespace OneVOne.GameService.WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

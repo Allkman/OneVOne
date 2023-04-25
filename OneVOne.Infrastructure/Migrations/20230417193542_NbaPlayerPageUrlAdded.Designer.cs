@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OneVOne.Infrastructure;
+using OneVOne.GameService.Infrastructure;
 
 #nullable disable
 
-namespace OneVOne.Infrastructure.Migrations
+namespace OneVOne.GameService.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20230417193542_NbaPlayerPageUrlAdded")]

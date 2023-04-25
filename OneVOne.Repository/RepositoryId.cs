@@ -1,12 +1,12 @@
-﻿using OneVOne.Core;
-using OneVOne.Infrastructure;
+﻿using OneVOne.GameService.Core;
+using OneVOne.GameService.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneVOne.Repository
+namespace OneVOne.GameService.Repository
 {
     internal abstract class RepositoryId<TEntity> : Repository<TEntity>, IRepositoryId<TEntity> where TEntity : EntityId
     {

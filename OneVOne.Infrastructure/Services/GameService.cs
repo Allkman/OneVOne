@@ -1,15 +1,18 @@
 ﻿using OneVOne.Common;
-using OneVOne.Core.Entities;
-using OneVOne.Infrastructure.GameState;
-using OneVOne.Infrastructure.Services.Interfaces;
+using OneVOne.GameService.Core.Entities;
+using OneVOne.GameService.Infrastructure.GameState;
+using OneVOne.GameService.Infrastructure.Services.Interfaces;
 
-namespace OneVOne.Infrastructure.Services
+namespace OneVOne.GameService.Infrastructure.Services
 {
     public class GameService : IGameService
     {
         private readonly IUnitOfWork _unitOfWork;
         private Random randomNumberGenerator;
         private const byte EndGameScore = 11;
+        private const byte OnePoint = 1;
+        private const byte TwoPoints = 2;
+
 
         private readonly IGameState _playerOneState;
         private readonly IGameState _playerTwoState;
@@ -41,13 +44,14 @@ namespace OneVOne.Infrastructure.Services
             }
             await _unitOfWork.CommitAsync();
         }
-        public async Task<Game> PlayGame(Guid playerOneId, Guid playerTwoId)
+        public async Task<Game> PlayGame(Guid playerOneId, Guid playerTwoId, string gameTime)
         {
             var playerOne = await _unitOfWork.PlayerRepository.FindAsync(playerOneId);
             var playerTwo = await _unitOfWork.PlayerRepository.FindAsync(playerTwoId);
 
             var game = new Game
             {
+                GameTime = DateTime.Parse(gameTime),
                 PlayerOne = playerOne,
                 PlayerOneStatistics = new PlayByPlayStatistics(),
                 PlayerTwo = playerTwo,
@@ -55,58 +59,82 @@ namespace OneVOne.Infrastructure.Services
                 PlayerOneTotalScore = 0,
                 PlayerTwoTotalScore = 0,
             };
-
-            while (game.PlayerOneTotalScore < EndGameScore && game.PlayerTwoTotalScore < EndGameScore)
+            var gameClone = game.Clone();
+            var roundsCount = 0;
+            while (gameClone.PlayerOneTotalScore < EndGameScore && gameClone.PlayerTwoTotalScore < EndGameScore)
             {
-                if (game.PlayerOne.IsAttacker ?? true)
+                roundsCount++;
+                _playerOneState.Fatigue(gameClone.PlayerOne, roundsCount);
+                _playerOneState.Fatigue(gameClone.PlayerTwo, roundsCount);
+                if (gameClone.PlayerOne.IsAttacker)
                 {
-                    var playerOneScorePointAmount = randomNumberGenerator.Randomize(1, 3);
-                    game.PlayerOneStatistics.ScorePoint = playerOneScorePointAmount;
-                    if (playerOneScorePointAmount == 1)
+                    if (randomNumberGenerator.Randomize(1, 3) == OnePoint)
                     {
-                        var playerOneAttemptToScoreOne = 
-                            _playerOneState.ScoringAttempt(game.PlayerOne.InsideScoring, game.PlayerTwo.Defending, playerOneScorePointAmount);
-                       
-                        ShotAttempt(playerOneAttemptToScoreOne, game);
+                        game.PlayerOneStatistics.ScorePoint = OnePoint;
+                        ShotAttempt(_playerOneState.ScoringAttempt(gameClone.PlayerOne.InsideScoring, gameClone.PlayerTwo.Defending, OnePoint), gameClone);
+                        Console.WriteLine($"playerOne.ScorePoint: {game.PlayerOneStatistics.ScorePoint}");
                     }
                     else
                     {
-                        var playerOneAttemptToScoreTwo = 
-                            _playerOneState.ScoringAttempt(game.PlayerOne.OutsideScoring, game.PlayerTwo.Defending, playerOneScorePointAmount);
-                        
-                        ShotAttempt(playerOneAttemptToScoreTwo, game);
+                        game.PlayerOneStatistics.ScorePoint = TwoPoints;
+                        ShotAttempt(_playerOneState.ScoringAttempt(gameClone.PlayerOne.OutsideScoring, gameClone.PlayerTwo.Defending, TwoPoints), gameClone);
+                        Console.WriteLine($"playerOne.ScorePoint: {game.PlayerOneStatistics.ScorePoint}");
+
                     }
                 }
                 else
                 {
-                    var playerTwoScorePointAmount = randomNumberGenerator.Randomize(1, 3);
-
-                    game.PlayerTwoStatistics.ScorePoint = playerTwoScorePointAmount;
-                    if (playerTwoScorePointAmount == 1)
+                    if (randomNumberGenerator.Randomize(1, 3) == OnePoint)
                     {
-                        var playerTwoAttemptToScoreOne =
-                            _playerTwoState.ScoringAttempt(game.PlayerTwo.InsideScoring, game.PlayerOne.Defending, playerTwoScorePointAmount);
-                        
-                        ShotAttempt(playerTwoAttemptToScoreOne, game);
+                        game.PlayerTwoStatistics.ScorePoint = OnePoint;
+                        ShotAttempt(_playerTwoState.ScoringAttempt(gameClone.PlayerTwo.InsideScoring, gameClone.PlayerOne.Defending, OnePoint), gameClone);
+                        Console.WriteLine($"playerTwo.ScorePoint: {gameClone.PlayerTwoStatistics.ScorePoint}");
+
                     }
                     else
                     {
-                        var playerTwoAttemptToScoreTwo =
-                            _playerTwoState.ScoringAttempt(game.PlayerTwo.OutsideScoring, game.PlayerOne.Defending, playerTwoScorePointAmount);
-                        
-                        ShotAttempt(playerTwoAttemptToScoreTwo, game);
+                        game.PlayerTwoStatistics.ScorePoint = TwoPoints;
+                        ShotAttempt(_playerTwoState.ScoringAttempt(gameClone.PlayerTwo.OutsideScoring, gameClone.PlayerOne.Defending, TwoPoints), gameClone);
+                        Console.WriteLine($"playerTwo.ScorePoint: {gameClone.PlayerTwoStatistics.ScorePoint}");
+
                     }
                 }
             }
+            Console.WriteLine(roundsCount);
+            game.PlayerOneTotalScore = gameClone.PlayerOneTotalScore;
+            game.PlayerTwoTotalScore = gameClone.PlayerTwoTotalScore;
+            Console.WriteLine();
+            Console.WriteLine($"p1Stats:{gameClone.PlayerOne.InsideScoring}, p2Stats: {gameClone.PlayerTwo.InsideScoring}");
+            await _unitOfWork.GameRepository.AddAsync(game);
+            await _unitOfWork.CommitAsync();
+
             return game;
         }
+
+        public async Task<Game> GetGame(string gameTime)
+        {
+            return await _unitOfWork.GameRepository.FindAsync(g => g.GameTime == DateTime.Parse(gameTime));
+        }
+
+       
+
         private void ShotAttempt(byte playerAttemptToScore, Game game)
         {
-            if (game.PlayerOne.IsAttacker ?? true)
+            if (game.PlayerOne.IsAttacker)
             {
                 if (playerAttemptToScore == 0)
                 {
-                    _playerTwoState.Rebound(game.PlayerOne.Rebounding, game.PlayerTwo.Rebounding);
+                    game.PlayerOne.IsAttacker = 
+                        _playerOneState.Rebound(game.PlayerOne.Rebounding, game.PlayerTwo.Rebounding);
+                    if (game.PlayerOne.IsAttacker)
+                    {
+                        game.PlayerTwo.IsAttacker = false;
+                    }
+                    else
+                    {
+                        game.PlayerTwo.IsAttacker = true;
+                    }
+                    return;
                 }
                 else
                 {
@@ -116,11 +144,21 @@ namespace OneVOne.Infrastructure.Services
                     return;
                 }
             }
-            if (game.PlayerTwo.IsAttacker ?? true)
+            if (game.PlayerTwo.IsAttacker)
             {
                 if (playerAttemptToScore == 0)
                 {
-                    _playerOneState.Rebound(game.PlayerTwo.Rebounding, game.PlayerOne.Rebounding);
+                    game.PlayerTwo.IsAttacker = 
+                        _playerTwoState.Rebound(game.PlayerTwo.Rebounding, game.PlayerOne.Rebounding);
+                    if (game.PlayerTwo.IsAttacker)
+                    {
+                        game.PlayerOne.IsAttacker = false;
+                    }
+                    else
+                    {
+                        game.PlayerOne.IsAttacker = true;
+                    }
+                    return;
                 }
                 else
                 {

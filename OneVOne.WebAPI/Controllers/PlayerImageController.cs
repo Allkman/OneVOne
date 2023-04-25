@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OneVOne.Core.Entities;
-using OneVOne.Infrastructure.Services.Interfaces;
+using OneVOne.GameService.Core.Entities;
+using OneVOne.GameService.Infrastructure.Services.Interfaces;
 
-namespace OneVOne.WebAPI.Controllers
+namespace OneVOne.GameService.WebAPI.Controllers
 {
     public class PlayerImageController : BaseController
     {

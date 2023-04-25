@@ -1,18 +1,13 @@
 ﻿using OneVOne.Common;
-using OneVOne.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OneVOne.GameService.Core.Entities;
 
-namespace OneVOne.Infrastructure.GameState
+namespace OneVOne.GameService.Infrastructure.GameState
 {
     public class PlayerState : IGameState
     {
         private Random _randomNumberGenerator;
         private const byte LowerBoundOfRating = 10;
-
+        private const byte MinStatValue = 10;
         public PlayerState()
         {
             _randomNumberGenerator = new Random();
@@ -28,39 +23,31 @@ namespace OneVOne.Infrastructure.GameState
             throw new NotImplementedException();
         }
 
-        public byte ScoringAttempt(byte? playerOne, byte? playerTwo, byte scoringPointAttempt)
+        public byte ScoringAttempt(byte? attacker, byte? deffender, byte scoringPointAttempt)
         {
-            byte differenceOnAttackAttempt = AbsDifference(playerOne, playerTwo);
-
-            if (playerOne > playerTwo)
+            var attackerRandomScoringChanceNumber = 0;
+            var deffenderRandomDeffenceNumber = 0;
+            if (attacker > deffender)
             {
-                var attackerRandomScoringChanceNumber = 
-                    _randomNumberGenerator.Randomize(0, LowerBoundOfRating + differenceOnAttackAttempt);
-                var deffenderRandomDeffenceNumber = 
-                    _randomNumberGenerator.Randomize(0, LowerBoundOfRating);
                 while (attackerRandomScoringChanceNumber == deffenderRandomDeffenceNumber)
                 {
                     attackerRandomScoringChanceNumber = 
-                        _randomNumberGenerator.Randomize(0, LowerBoundOfRating + differenceOnAttackAttempt);
+                        _randomNumberGenerator.Randomize(0, LowerBoundOfRating + AbsDifference(attacker, deffender));
                     deffenderRandomDeffenceNumber = 
                         _randomNumberGenerator.Randomize(0, LowerBoundOfRating);
                 }
-                return ShotAttempt(attackerRandomScoringChanceNumber, deffenderRandomDeffenceNumber, scoringPointAttempt);
+                return ShotAttempt((byte)attackerRandomScoringChanceNumber, (byte)deffenderRandomDeffenceNumber, scoringPointAttempt);
             }
             else
             {
-                var attackerRandomScoringChanceNumber = 
-                    _randomNumberGenerator.Randomize(0, LowerBoundOfRating );
-                var deffenderRandomDeffenceNumber = 
-                    _randomNumberGenerator.Randomize(0, LowerBoundOfRating + differenceOnAttackAttempt);
                 while (attackerRandomScoringChanceNumber == deffenderRandomDeffenceNumber)
                 {
                     attackerRandomScoringChanceNumber = 
                         _randomNumberGenerator.Randomize(0, LowerBoundOfRating);
                     deffenderRandomDeffenceNumber = 
-                        _randomNumberGenerator.Randomize(0, LowerBoundOfRating + differenceOnAttackAttempt);
+                        _randomNumberGenerator.Randomize(0, LowerBoundOfRating + AbsDifference(attacker, deffender));
                 }
-                return ShotAttempt(attackerRandomScoringChanceNumber, deffenderRandomDeffenceNumber, scoringPointAttempt);
+                return ShotAttempt((byte)attackerRandomScoringChanceNumber, (byte)deffenderRandomDeffenceNumber, scoringPointAttempt);
             }
         }
 
@@ -73,33 +60,66 @@ namespace OneVOne.Infrastructure.GameState
 
         }
 
-        public byte Rebound(byte? playerOne, byte? playerTwo)
+        public bool Rebound(byte? attacker, byte? deffender)
         {
-            byte differenceOnRebuoundAttempt = AbsDifference(playerOne, playerTwo);
-            if (playerOne > playerTwo)
+            var attackerReboundRandomNumber = 0;
+            var deffenderReboundRandomNumber = 0;
+            if (attacker > deffender)
             {
-                var offensiveReboundRandomNumber = _randomNumberGenerator.Randomize(0, LowerBoundOfRating + differenceOnRebuoundAttempt);
-                var deffensiveReboundRandomNumber = _randomNumberGenerator.Randomize(0, LowerBoundOfRating);
-
-                while (offensiveReboundRandomNumber == deffensiveReboundRandomNumber)
+                while (attackerReboundRandomNumber == deffenderReboundRandomNumber)
                 {
-                    offensiveReboundRandomNumber = _randomNumberGenerator.Randomize(0, LowerBoundOfRating + differenceOnRebuoundAttempt);
-                    deffensiveReboundRandomNumber = _randomNumberGenerator.Randomize(0, LowerBoundOfRating);
+                    attackerReboundRandomNumber = 
+                        _randomNumberGenerator.Randomize(0, LowerBoundOfRating + AbsDifference(attacker, deffender));
+                    deffenderReboundRandomNumber = _randomNumberGenerator.Randomize(0, LowerBoundOfRating);
                 }
-                if (offensiveReboundRandomNumber > deffensiveReboundRandomNumber)
+                if (attackerReboundRandomNumber > deffenderReboundRandomNumber)
                 {
-                    playerOne++;
+                    return true;
                 }
                 else
-                {
-                    playerTwo++;
-                }
+                    return false;
             }
             else
             {
-
+                while (attackerReboundRandomNumber == deffenderReboundRandomNumber)
+                {
+                    attackerReboundRandomNumber = _randomNumberGenerator.Randomize(0, LowerBoundOfRating);
+                    deffenderReboundRandomNumber = 
+                        _randomNumberGenerator.Randomize(0, LowerBoundOfRating + AbsDifference(attacker, deffender));
+                }
+                if (attackerReboundRandomNumber < deffenderReboundRandomNumber)
+                {
+                    return false;
+                }
+                else
+                    return true;
             }
-            return 0;
+        }
+
+        public void Fatigue(Player player, int roundCount)
+        {
+            //the higher the athleticism is the less chance is to enter this if to lower the stats
+            if (((100 - player.Athleticism) * roundCount)/3 >= _randomNumberGenerator.Randomize(0, 101))
+            {
+                player.OutsideScoring = DecrementStat(player.OutsideScoring);
+                player.InsideScoring = DecrementStat(player.InsideScoring);
+                player.Defending = DecrementStat(player.Defending);
+                player.Rebounding = DecrementStat(player.Rebounding);
+                player.Playmaking = DecrementStat(player.Playmaking);
+            }
+        }
+
+        private byte DecrementStat(byte? statValue)
+        {
+            int newStatValue = Math.Max(statValue - 1?? 0, MinStatValue);
+            if (newStatValue == 10)
+            {
+                return (byte)MinStatValue;
+            }
+            else
+            {
+                return (byte)newStatValue;
+            }
         }
 
         private byte AbsDifference(byte? playerOne, byte? playerTwo)

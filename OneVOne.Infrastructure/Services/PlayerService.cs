@@ -1,8 +1,8 @@
-﻿using OneVOne.Core.Entities;
-using OneVOne.Infrastructure.Repositories;
-using OneVOne.Infrastructure.Services.Interfaces;
+﻿using OneVOne.GameService.Core.Entities;
+using OneVOne.GameService.Infrastructure.Repositories;
+using OneVOne.GameService.Infrastructure.Services.Interfaces;
 
-namespace OneVOne.Infrastructure.Services
+namespace OneVOne.GameService.Infrastructure.Services
 {
     public class PlayerService : IPlayerService
     {

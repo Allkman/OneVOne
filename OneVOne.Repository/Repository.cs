@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OneVOne.Core;
-using OneVOne.Core.Entities;
-using OneVOne.Infrastructure;
+using OneVOne.GameService.Core;
+using OneVOne.GameService.Core.Entities;
+using OneVOne.GameService.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneVOne.Repository
+namespace OneVOne.GameService.Repository
 {
     internal abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {

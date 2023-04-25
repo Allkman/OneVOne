@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneVOne.Infrastructure.Models
+namespace OneVOne.GameService.Infrastructure.Models
 {
     public class PlayByPlayStatisticsModel : Model
     {

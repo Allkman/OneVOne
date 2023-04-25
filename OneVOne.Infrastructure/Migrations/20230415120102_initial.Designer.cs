@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OneVOne.Infrastructure;
+using OneVOne.GameService.Infrastructure;
 
 #nullable disable
 
-namespace OneVOne.Infrastructure.Migrations
+namespace OneVOne.GameService.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20230415120102_initial")]
@@ -189,25 +189,6 @@ namespace OneVOne.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("OneVOne.Core.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("OneVOne.Core.Entities.Game", b =>

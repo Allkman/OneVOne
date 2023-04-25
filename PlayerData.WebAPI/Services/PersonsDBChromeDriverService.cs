@@ -4,13 +4,13 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
-using OneVOne.Repository;
+using OneVOne.GameService.Repository;
 using PlayerData.WebAPI.Options;
 using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
-using OneVOne.Infrastructure;
+using OneVOne.GameService.Infrastructure;
 using System.Linq;
-using OneVOne.Core.Entities;
+using OneVOne.GameService.Core.Entities;
 using System.Net;
 using System.Threading;
 using System.Net.Http;
@@ -24,7 +24,6 @@ namespace PlayerData.WebAPI.Services
         private ChromeDriver _driver;
         private IUnitOfWork _unitOfWork;
         private readonly string _nbaPlayersUrl;
-        private readonly string _connectionString;
         private readonly string _selectQuery;
         private readonly string _insertQuery;
         private readonly string _idParameter;
@@ -48,7 +47,6 @@ namespace PlayerData.WebAPI.Services
             _unitOfWork = unitOfWork;
             _driver = new ChromeDriver();
             _playerURLs = new List<string>();
-            _connectionString = options.Value.ConnectionString;
             _selectQuery = personsSqlOptions.Value.SelectQuery;
             _insertQuery = personsSqlOptions.Value.InsertQuery;
             _idParameter = personsSqlOptions.Value.IdParameter;
@@ -187,7 +185,7 @@ namespace PlayerData.WebAPI.Services
             var waitSecondPageToLoad = new WebDriverWait(_driver, new TimeSpan(0, 0, 30));
 
             var skipWhile = players.SkipWhile(
-                p => /*p.Person.FirstName.ToLower() != "gabe" && */p.Person.LastName.ToLower() != "york");
+                p => /*p.Person.FirstName.ToLower() != "gabe" && */p.Person.LastName.ToLower() != "achiuwa");
             foreach (var player in skipWhile)
             {
                 _driver.Navigate().GoToUrl(player.NbaPlayerPageUrl);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneVOne.Repository
+namespace OneVOne.GameService.Repository
 {
     public sealed class UnitOfWorkOptions
     {

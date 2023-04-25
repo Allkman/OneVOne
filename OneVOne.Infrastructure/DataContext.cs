@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OneVOne.Core.Entities;
+using OneVOne.GameService.Core.Entities;
 using System.Reflection;
 
-namespace OneVOne.Infrastructure
+namespace OneVOne.GameService.Infrastructure
 {
     public class DataContext : DbContext
     {
@@ -16,7 +16,6 @@ namespace OneVOne.Infrastructure
         public DbSet<Game> Games { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<PlayByPlayStatistics> PlayByPlayStatistics { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<PlayerImage> PlayerImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

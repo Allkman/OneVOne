@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OneVOne.Infrastructure;
+using OneVOne.GameService.Infrastructure;
 
 #nullable disable
 
-namespace OneVOne.Infrastructure.Migrations
+namespace OneVOne.GameService.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -27,6 +27,9 @@ namespace OneVOne.Infrastructure.Migrations
                     b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("GameTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("PlayerOneId")
                         .HasColumnType("uniqueidentifier");

@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OneVOne.Common\OneVOne.Common.csproj" />
-    <ProjectReference Include="..\OneVOne.Core\OneVOne.Core.csproj" />
+    <ProjectReference Include="..\OneVOne.Core\OneVOne.GameService.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

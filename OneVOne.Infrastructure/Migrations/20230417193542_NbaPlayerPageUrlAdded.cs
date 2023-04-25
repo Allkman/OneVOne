@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace OneVOne.Infrastructure.Migrations
+namespace OneVOne.GameService.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class NbaPlayerPageUrlAdded : Migration

@@ -1,17 +1,13 @@
-﻿using OneVOne.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OneVOne.GameService.Core.Entities;
 
-namespace OneVOne.Infrastructure.GameState
+namespace OneVOne.GameService.Infrastructure.GameState
 {
     public interface IGameState
     {
-        byte ScoringAttempt(byte? playerOne, byte? playerTwo, byte scoringPointAttempt);
-        byte Rebound(byte? playerOne, byte? playerTwo);
+        byte ScoringAttempt(byte? attacker, byte? deffender, byte scoringPointAttempt);
+        bool Rebound(byte? attacker, byte? deffender);
         void Block();
         void Foul();
+        void Fatigue(Player player, int roundCount);
     }
 }

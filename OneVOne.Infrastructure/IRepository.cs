@@ -1,7 +1,7 @@
-﻿using OneVOne.Core;
+﻿using OneVOne.GameService.Core;
 using System.Linq.Expressions;
 
-namespace OneVOne.Infrastructure
+namespace OneVOne.GameService.Infrastructure
 {
     public interface IRepository<TEntity> where TEntity : Entity
     {

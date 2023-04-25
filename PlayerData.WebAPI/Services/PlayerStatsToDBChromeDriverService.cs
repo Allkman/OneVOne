@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using OneVOne.Infrastructure;
+using OneVOne.GameService.Infrastructure;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Threading.Tasks;
@@ -27,14 +27,9 @@ namespace PlayerData.WebAPI.Services
         public async Task ExecuteChromeDriverForPlayerStatsToDbTable()
         {
             var allPlayers = await _unitOfWork.PlayerRepository.GetAllAsync();
-            foreach (var playerRR in allPlayers)
+            foreach (var player in allPlayers.SkipWhile(p => p.Person.FirstName.ToLower() != "domantas" && p.Person.LastName.ToLower() != "sabonis"))
             {
-                var playersFromSkipped = allPlayers.SkipWhile(
-                    p => p.Person.FirstName.ToLower() != "nicolas" && p.Person.LastName.ToLower() != "claxton");
-                foreach (var player in playersFromSkipped)
-                {
-
-                    string url = UrlFormat(player.Person.FirstName, player.Person.LastName);
+                string url = UrlFormat(player.Person.FirstName, player.Person.LastName);
 
                 if (url != null)
                 {
@@ -55,10 +50,13 @@ namespace PlayerData.WebAPI.Services
 
                 }
                 await _unitOfWork.CommitAsync();
-                }
-
             }
             _driver.Quit();
+        }
+
+        private IWebElement GetWebElement(string statType)
+        {
+            return _driver.FindElement((By.XPath($"//h5[contains(text(), '{statType}')]")));
         }
         private string UrlFormat(string firstName, string lastName)
         {
@@ -120,34 +118,6 @@ namespace PlayerData.WebAPI.Services
             {
                 return $"https://www.2kratings.com/{firstName.ToLower()}-{lastName.ToLower()}";
             }
-        }
-        private IWebElement GetWebElement(string statType)
-        {
-            return _driver.FindElement((By.XPath($"//h5[contains(text(), '{statType}')]")));
-            //var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30));
-            //return wait.Until(condition =>
-            //{
-            //    try
-            //    {
-            //        var elementToBeDisplayed = _driver.FindElement((By.XPath($"//h5[contains(text(), '{statType}')]")));
-            //        if (elementToBeDisplayed.Displayed)
-            //        {
-            //            return elementToBeDisplayed;
-            //        }
-            //        else
-            //        {
-            //            return null;
-            //        }
-            //    }
-            //    catch (StaleElementReferenceException)
-            //    {
-            //        return null;
-            //    }
-            //    catch (NoSuchElementException)
-            //    {
-            //        return null;
-            //    }
-            //});
         }
     }
 }

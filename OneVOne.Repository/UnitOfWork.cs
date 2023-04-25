@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
-using OneVOne.Infrastructure;
-using OneVOne.Infrastructure.Repositories;
-using DataContext = OneVOne.Infrastructure.DataContext;
+using OneVOne.GameService.Infrastructure;
+using OneVOne.GameService.Infrastructure.Repositories;
+using DataContext = OneVOne.GameService.Infrastructure.DataContext;
 
-namespace OneVOne.Repository
+namespace OneVOne.GameService.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -19,7 +19,6 @@ namespace OneVOne.Repository
         private PlayByPlayStatisticsRepository _playByPlayStatisticsRepository;
         private PlayerRepository _playerRepository;
         private TeamRepository _teamRepository;
-        private UserRepository _userRepository;
         private PlayerImageRepository _playerImageRepository;
         public UnitOfWork(IOptions<UnitOfWorkOptions> options) : this(options.Value)
         {
@@ -43,7 +42,6 @@ namespace OneVOne.Repository
 
         public ITeamRepository TeamRepository => _teamRepository ??= new TeamRepository(Context);
 
-        public IUserRepository UserRepository => _userRepository ??= new UserRepository(Context);
         public IPlayerImageRepository PlayerImageRepository => _playerImageRepository ??= new PlayerImageRepository(Context);
 
         public async Task CommitAsync()
